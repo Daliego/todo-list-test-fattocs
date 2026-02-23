@@ -1,0 +1,61 @@
+import { Globe, Linkedin } from "lucide-react";
+import Link from "next/link";
+import { Icons } from "@/components/icons";
+import { ModeToggle } from "@/components/layouts/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
+
+export function SiteHeader() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <nav className="flex flex-1 items-center md:justify-end">
+          <a
+            href="https://daliego.github.io/portfolio-case-studies/"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md p-2 hover:bg-muted"
+            aria-label="Portfólio"
+            title="Portfólio"
+          >
+            <Globe className="h-5 w-5" />
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/daliego/"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md p-2 hover:bg-muted"
+            aria-label="LinkedIn"
+            title="LinkedIn"
+          >
+            <Linkedin className="h-5 w-5" />
+          </a>
+
+          <a
+            href="https://github.com/daliego"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md p-2 text-sm hover:bg-muted"
+            aria-label="GitHub"
+            title="GitHub"
+          >
+            GitHub
+          </a>
+
+          <Button variant="ghost" size="icon" className="size-8" asChild>
+            <Link
+              aria-label="GitHub repo"
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icons.gitHub className="size-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <ModeToggle />
+        </nav>
+      </div>
+    </header>
+  );
+}
