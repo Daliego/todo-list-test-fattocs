@@ -23,15 +23,23 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = await createTask(parsed.data);
+    const result = await createTask({
+      ...parsed.data,
+      costInCents: Number(parsed.data.costInCents),
+    });
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
+    console.error("error", err);
+
     if (err instanceof ServiceError) {
       return NextResponse.json(
         { message: err.message },
         { status: err.status },
       );
     }
-    throw err;
+    return NextResponse.json(
+      { message: "Erro ao criar a tarefa" },
+      { status: 500 },
+    );
   }
 }

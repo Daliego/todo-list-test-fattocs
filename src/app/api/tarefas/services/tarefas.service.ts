@@ -41,14 +41,16 @@ export async function createTask(data: {
 
   const nextOrder = (maxRows?.[0]?.max ?? 0) + 1;
 
+  const values = {
+    nome: data.name,
+    custo: centsToDecimal(data.costInCents),
+    dataLimite: data.deadline,
+    ordem: nextOrder,
+  };
+
   const inserted = await db
     .insert(tarefas)
-    .values({
-      nome: data.name,
-      custo: centsToDecimal(data.costInCents),
-      dataLimite: data.deadline,
-      ordem: nextOrder,
-    })
+    .values(values)
     .returning({ id: tarefas.id });
 
   return { id: inserted[0]?.id };

@@ -26,7 +26,10 @@ export async function PUT(
   }
 
   try {
-    await updateTask(taskId, parsed.data);
+    await updateTask(taskId, {
+      ...parsed.data,
+      costInCents: Number(parsed.data.costInCents),
+    });
     return NextResponse.json({ ok: true });
   } catch (err) {
     if (err instanceof ServiceError) {
@@ -35,7 +38,10 @@ export async function PUT(
         { status: err.status },
       );
     }
-    throw err;
+    return NextResponse.json(
+      { message: "Erro ao atualizar a tarefa" },
+      { status: 500 },
+    );
   }
 }
 
