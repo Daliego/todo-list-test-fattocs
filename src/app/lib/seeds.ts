@@ -6,6 +6,7 @@ export async function seedTarefas({ count }: { count: number }) {
   const rows = Array.from({ length: count }, (_, i) => ({
     nome: faker.lorem.sentence({ min: 2, max: 5 }).replace(/\.$/, ""),
     custo: faker.finance.amount({ min: 10, max: 5000, dec: 2 }),
+    // biome-ignore lint/style/noNonNullAssertion: split("T") always yields at least one element
     dataLimite: faker.date.soon({ days: 90 }).toISOString().split("T")[0]!,
     ordem: i + 1,
   }));

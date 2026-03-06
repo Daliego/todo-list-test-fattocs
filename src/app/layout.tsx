@@ -5,14 +5,15 @@ import { ThemeProvider } from "@/components/providers";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 
 import "@/styles/globals.css";
 
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { AppProviders } from "@/app/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { fontMono, fontSans } from "@/lib/fonts";
-import { AppProviders } from "@/app/providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           </ThemeProvider>
           <Toaster />
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );

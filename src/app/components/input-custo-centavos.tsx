@@ -29,6 +29,7 @@ export function InputCostCents({ value, onChange, placeholder }: Props) {
       value={display}
       onChange={(e) => {
         const digits = e.target.value.replace(/\D/g, "");
+        if (digits.length > 10) return;
         onChange(digits);
       }}
     />
