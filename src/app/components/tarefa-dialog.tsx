@@ -1,8 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { tarefaFormSchema } from "@/app/lib/validations";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAtualizarTarefa, useCriarTarefa } from "@/hooks/queries/tarefas";
+import type { Tarefa } from "@/models/tarefa";
 import { InputCostCents } from "./input-custo-centavos";
-import { useCriarTarefa, useAtualizarTarefa } from "@/hooks/queries/tarefas";
-import { tarefaFormSchema } from "@/app/lib/validations";
-import { Tarefa } from "@/models/tarefa";
 
 type Props = {
   open: boolean;
@@ -40,7 +40,7 @@ function decimalToCentsStr(decimal: string) {
 
 export function TarefaDialog({ open, onOpenChange, isEditing, task }: Props) {
   const form = useForm<TaskFormInput>({
-    resolver: zodResolver(tarefaFormSchema) as any,
+    resolver: zodResolver(tarefaFormSchema),
     defaultValues: {
       name: "",
       costInCents: "0",
@@ -84,8 +84,10 @@ export function TarefaDialog({ open, onOpenChange, isEditing, task }: Props) {
         await createMutation.mutateAsync(payload);
       }
       onOpenChange(false);
-    } catch (err: any) {
-      setApiError(err?.message ?? "Não foi possível salvar.");
+    } catch (err: unknown) {
+      setApiError(
+        (err as { message: string }).message ?? "Não foi possível salvar.",
+      );
     }
   }
 
@@ -103,7 +105,7 @@ export function TarefaDialog({ open, onOpenChange, isEditing, task }: Props) {
             <Label htmlFor="name">Nome da tarefa</Label>
             <Input id="name" {...form.register("name")} />
             {form.formState.errors.name?.message ? (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {form.formState.errors.name.message}
               </p>
             ) : null}
@@ -123,7 +125,7 @@ export function TarefaDialog({ open, onOpenChange, isEditing, task }: Props) {
               )}
             />
             {form.formState.errors.costInCents?.message ? (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {form.formState.errors.costInCents.message}
               </p>
             ) : null}
@@ -133,14 +135,14 @@ export function TarefaDialog({ open, onOpenChange, isEditing, task }: Props) {
             <Label htmlFor="deadline">Data-limite</Label>
             <Input id="deadline" type="date" {...form.register("deadline")} />
             {form.formState.errors.deadline?.message ? (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {form.formState.errors.deadline.message}
               </p>
             ) : null}
           </div>
 
           {apiError ? (
-            <p className="text-sm text-destructive">{apiError}</p>
+            <p className="text-destructive text-sm">{apiError}</p>
           ) : null}
 
           <DialogFooter>

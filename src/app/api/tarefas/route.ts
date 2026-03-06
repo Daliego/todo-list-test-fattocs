@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { tarefaFormSchema } from "@/app/lib/validations";
 import {
-  listTasks,
   createTask,
+  listTasks,
   ServiceError,
 } from "@/app/api/tarefas/services/tarefas.service";
+import { tarefaFormSchema } from "@/app/lib/validations";
 
 export async function GET() {
   const rows = await listTasks();

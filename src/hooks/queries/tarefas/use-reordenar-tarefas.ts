@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TAREFAS_QUERY_KEY } from "./use-tarefas-query";
-import type { Tarefa } from "@/models/tarefa";
 import { toast } from "sonner";
+import type { Tarefa } from "@/models/tarefa";
+import { TAREFAS_QUERY_KEY } from "./use-tarefas-query";
 
 export function useReordenarTarefas() {
   const queryClient = useQueryClient();

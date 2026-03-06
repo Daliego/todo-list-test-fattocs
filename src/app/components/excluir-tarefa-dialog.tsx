@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { useExcluirTarefa } from "@/hooks/queries/tarefas";
 
 type Props = {

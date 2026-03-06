@@ -1,7 +1,25 @@
 "use client";
 
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { ExcluirTarefaDialog } from "@/app/components/excluir-tarefa-dialog";
+import { SortableRow } from "@/app/components/sortable-row";
+import { TarefaDialog } from "@/app/components/tarefa-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -12,28 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { TarefaDialog } from "@/app/components/tarefa-dialog";
-import { ExcluirTarefaDialog } from "@/app/components/excluir-tarefa-dialog";
-import { SortableRow } from "@/app/components/sortable-row";
-import { useTarefasQuery, useReordenarTarefas } from "@/hooks/queries/tarefas";
+import { useReordenarTarefas, useTarefasQuery } from "@/hooks/queries/tarefas";
 import type { Tarefa } from "@/models/tarefa";
-
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 const fmtBRL = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -96,7 +94,7 @@ export default function Page() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">
+          <h1 className="font-semibold text-2xl">
             Você tem {tarefas.length} tarefa(s) hoje
           </h1>
         </div>

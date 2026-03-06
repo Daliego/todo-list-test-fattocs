@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { tarefaFormSchema } from "@/app/lib/validations";
 import {
-  updateTask,
   deleteTask,
   ServiceError,
+  updateTask,
 } from "@/app/api/tarefas/services/tarefas.service";
+import { tarefaFormSchema } from "@/app/lib/validations";
 
 export async function PUT(
   req: Request,

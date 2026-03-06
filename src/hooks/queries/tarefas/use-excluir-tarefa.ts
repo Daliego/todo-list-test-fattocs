@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TAREFAS_QUERY_KEY } from "./use-tarefas-query";
 import { toast } from "sonner";
+import { TAREFAS_QUERY_KEY } from "./use-tarefas-query";
 
 export function useExcluirTarefa() {
   const queryClient = useQueryClient();
