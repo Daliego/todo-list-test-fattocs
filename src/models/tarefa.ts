@@ -1,4 +1,4 @@
-import { tarefas } from "@/db/schema";
+import type { tarefas } from "@/db/schema";
 
 export type Tarefa = typeof tarefas.$inferSelect;
 

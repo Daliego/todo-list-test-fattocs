@@ -1,7 +1,25 @@
 "use client";
 
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { ExcluirTarefaDialog } from "@/app/components/excluir-tarefa-dialog";
+import { SortableRow } from "@/app/components/sortable-row";
+import { TarefaDialog } from "@/app/components/tarefa-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -12,28 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { TarefaDialog } from "@/app/components/tarefa-dialog";
-import { ExcluirTarefaDialog } from "@/app/components/excluir-tarefa-dialog";
-import { SortableRow } from "@/app/components/sortable-row";
-import { useTarefasQuery, useReordenarTarefas } from "@/hooks/queries/tarefas";
+import { useReordenarTarefas, useTarefasQuery } from "@/hooks/queries/tarefas";
 import type { Tarefa } from "@/models/tarefa";
-
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 const fmtBRL = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -77,13 +75,8 @@ export default function Page() {
   }
 
   const total = tarefas.reduce((acc, t) => {
-    console.log("the acc is", acc);
-    console.log("the t.custo is", t.custo);
-
     return acc + Number(t.custo);
   }, 0);
-
-  console.log("the total is", total);
 
   const AddTarefaButton = () => (
     <Button
@@ -101,7 +94,7 @@ export default function Page() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">
+          <h1 className="font-semibold text-2xl">
             Você tem {tarefas.length} tarefa(s) hoje
           </h1>
         </div>
@@ -135,9 +128,11 @@ export default function Page() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-10" />
+                    <TableHead>Id</TableHead>
                     <TableHead>Nome</TableHead>
                     <TableHead>Custo (R$)</TableHead>
                     <TableHead>Data-limite</TableHead>
+                    <TableHead>Ordem de Apresentação</TableHead>
                     <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -145,7 +140,7 @@ export default function Page() {
                 <TableBody>
                   {isLoading ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="h-24 text-center">
+                      <TableCell colSpan={7} className="h-24 text-center">
                         <div className="flex flex-col items-center justify-center gap-2">
                           Carregando...
                           <Loader2 className="h-6 w-6 animate-spin" />
@@ -154,7 +149,7 @@ export default function Page() {
                     </TableRow>
                   ) : tarefas.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center">
+                      <TableCell colSpan={7} className="text-center">
                         Nenhuma tarefa cadastrada.
                       </TableCell>
                     </TableRow>
@@ -180,7 +175,7 @@ export default function Page() {
                     ))
                   )}
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center">
+                    <TableCell colSpan={7} className="text-center">
                       <AddTarefaButton />
                     </TableCell>
                   </TableRow>
@@ -188,7 +183,7 @@ export default function Page() {
 
                 <TableFooter>
                   <TableRow>
-                    <TableCell colSpan={3} className="font-medium">
+                    <TableCell colSpan={5} className="font-medium">
                       Somatório dos custos
                     </TableCell>
                     <TableCell colSpan={2} className="text-right font-medium">

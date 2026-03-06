@@ -1,6 +1,6 @@
+import { and, eq, ne, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { tarefas } from "@/db/schema";
-import { and, eq, ne, sql } from "drizzle-orm";
 
 function centsToDecimal(cents: number): string {
   return (cents / 100).toFixed(2);
@@ -41,14 +41,16 @@ export async function createTask(data: {
 
   const nextOrder = (maxRows?.[0]?.max ?? 0) + 1;
 
+  const values = {
+    nome: data.name,
+    custo: centsToDecimal(data.costInCents),
+    dataLimite: data.deadline,
+    ordem: nextOrder,
+  };
+
   const inserted = await db
     .insert(tarefas)
-    .values({
-      nome: data.name,
-      custo: centsToDecimal(data.costInCents),
-      dataLimite: data.deadline,
-      ordem: nextOrder,
-    })
+    .values(values)
     .returning({ id: tarefas.id });
 
   return { id: inserted[0]?.id };

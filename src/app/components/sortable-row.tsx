@@ -1,6 +1,7 @@
 "use client";
 
-import { type CSSProperties } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   ChevronDown,
   ChevronUp,
@@ -8,11 +9,10 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import type { CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Tarefa } from "@/models/tarefa";
+import type { Tarefa } from "@/models/tarefa";
 
 const fmtBRL = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -70,7 +70,7 @@ export function SortableRow({
       <TableCell className="w-10">
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-md p-1 hover:bg-muted cursor-grab"
+          className="inline-flex cursor-grab items-center justify-center rounded-md p-1 hover:bg-muted"
           aria-label="Arrastar para reordenar"
           {...attributes}
           {...listeners}
@@ -79,9 +79,11 @@ export function SortableRow({
         </button>
       </TableCell>
 
+      <TableCell>{tarefa.id}</TableCell>
       <TableCell className="font-medium">{tarefa.nome}</TableCell>
       <TableCell>{fmtBRL.format(cost)}</TableCell>
       <TableCell>{fmtDateBR(String(tarefa.dataLimite))}</TableCell>
+      <TableCell>{tarefa.ordem}</TableCell>
 
       <TableCell className="text-right">
         <div className="inline-flex gap-1">
