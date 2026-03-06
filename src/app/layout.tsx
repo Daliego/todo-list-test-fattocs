@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 
 import "@/styles/globals.css";
 
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           </ThemeProvider>
           <Toaster />
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );
