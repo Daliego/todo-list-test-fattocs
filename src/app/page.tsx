@@ -135,9 +135,11 @@ export default function Page() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-10" />
+                    <TableHead>Id</TableHead>
                     <TableHead>Nome</TableHead>
                     <TableHead>Custo (R$)</TableHead>
                     <TableHead>Data-limite</TableHead>
+                    <TableHead>Ordem de Apresentação</TableHead>
                     <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -145,7 +147,7 @@ export default function Page() {
                 <TableBody>
                   {isLoading ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="h-24 text-center">
+                      <TableCell colSpan={7} className="h-24 text-center">
                         <div className="flex flex-col items-center justify-center gap-2">
                           Carregando...
                           <Loader2 className="h-6 w-6 animate-spin" />
@@ -154,7 +156,7 @@ export default function Page() {
                     </TableRow>
                   ) : tarefas.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center">
+                      <TableCell colSpan={7} className="text-center">
                         Nenhuma tarefa cadastrada.
                       </TableCell>
                     </TableRow>
@@ -180,7 +182,7 @@ export default function Page() {
                     ))
                   )}
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center">
+                    <TableCell colSpan={7} className="text-center">
                       <AddTarefaButton />
                     </TableCell>
                   </TableRow>
@@ -188,7 +190,7 @@ export default function Page() {
 
                 <TableFooter>
                   <TableRow>
-                    <TableCell colSpan={3} className="font-medium">
+                    <TableCell colSpan={5} className="font-medium">
                       Somatório dos custos
                     </TableCell>
                     <TableCell colSpan={2} className="text-right font-medium">
