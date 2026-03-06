@@ -79,9 +79,11 @@ export function SortableRow({
         </button>
       </TableCell>
 
+      <TableCell>{tarefa.id}</TableCell>
       <TableCell className="font-medium">{tarefa.nome}</TableCell>
       <TableCell>{fmtBRL.format(cost)}</TableCell>
       <TableCell>{fmtDateBR(String(tarefa.dataLimite))}</TableCell>
+      <TableCell>{tarefa.ordem}</TableCell>
 
       <TableCell className="text-right">
         <div className="inline-flex gap-1">
