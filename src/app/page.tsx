@@ -77,13 +77,8 @@ export default function Page() {
   }
 
   const total = tarefas.reduce((acc, t) => {
-    console.log("the acc is", acc);
-    console.log("the t.custo is", t.custo);
-
     return acc + Number(t.custo);
   }, 0);
-
-  console.log("the total is", total);
 
   const AddTarefaButton = () => (
     <Button
